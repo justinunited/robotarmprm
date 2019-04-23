@@ -21,7 +21,7 @@ Graph1 = Graph()
 obstacle1 = Obstacle([-250,-400,600],[250,-200,800])
 # print(obstacle1.vertices[:,0])
 Graph1.put_obstacle(obstacle1)
-while len(Graph1.nodelist)<100:
+while len(Graph1.nodelist)<52:
     q1 = uniform(-2/3*pi,2/3*pi)
     q2 = uniform(-185/180*pi,20/180*pi)
     q3 = uniform(-19/180*pi,3/2*pi)
@@ -33,5 +33,5 @@ while len(Graph1.nodelist)<100:
         Graph1.put_node(Node_i)
     print(len(Graph1.nodelist))
 Graph1.connect_graph()
-path = Graph1.astar([0,0,0,0,0],[1,-1,1,1,0])
+path = Graph1.astar([0,0,0,0,0],[1,-1,1,0,0])
 print(path)

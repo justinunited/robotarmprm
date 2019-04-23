@@ -162,38 +162,38 @@ class Graph:
         self.connect_graph()
         current_Node = self.nodelist[len(self.nodelist)-2]
         Node_goal = self.nodelist[len(self.nodelist)-1]
-        path = [current_Node.config]
+        path = [current_Node]
         cost = 0
         scorelist = []
         nodelist = []
-        layer = 1
-        layerlist = []
         costlist = []
+        path_explored = []
+        x = 0
         while current_Node != Node_goal:
             for i in range(len(current_Node.connectedNode)):
+                path_i = path.copy()
                 Node_i = self.nodelist[current_Node.connectedNode[i]]
                 cost_i = cost + heuristic(current_Node.config,Node_i.config)
                 h = heuristic(Node_i.config,Node_goal.config)
+                path_i.append(Node_i)
                 scorelist.append(h+cost_i)
-                nodelist.append((layer,Node_i))
+                nodelist.append(Node_i)
                 costlist.append(cost_i)
-            if layer != 1:
-                idx_previous = scorelist.index(previous_score)
-                scorelist.remove(scorelist[idx_previous])
-                nodelist.remove(nodelist[idx_previous])
-                costlist.remove(costlist[idx_previous])
+                path_explored.append(path_i)
+            if x!=0:
+                scorelist.remove(scorelist[idx])
+                nodelist.remove(nodelist[idx])
+                costlist.remove(costlist[idx])
             idx = scorelist.index(min(scorelist))
-            if nodelist[idx][0] < layer:
-                diff = layer -nodelist[idx][0]
-                for j in range(diff):
-                    path.remove(path[len(path)-1])
-                layer = nodelist[idx][0]
-            print(layer)
+            x = 1
             cost = costlist[idx]
-            layerlist.append(layer)
-            current_Node = nodelist[idx][1]
-            layer+=1
-            path.append(current_Node.config)
-            previous_score = min(scorelist)
-        return path
+            current_Node = nodelist[idx]
+            for i in path_explored:
+                if i[len(i)-1] == current_Node:
+                    path = i.copy()
+                    path_explored.remove(i)
+        path_config = []
+        for i in path:
+            path_config.append(i.config)
+        return path_config
 
