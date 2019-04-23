@@ -7,6 +7,11 @@ from mpl_toolkits.mplot3d import Axes3D
 from math import sqrt
 
 
+def heuristic(config,goal_state):
+    hq = np.square(np.array(goal_state)-np.array(config))
+    hq = np.sum(hq)
+    hq = np.sqrt(hq)
+    return hq
 
 
 class Graph:
@@ -123,63 +128,72 @@ class Graph:
                 dis_s = np.square(diff)
                 sum = np.sum(dis_s)
                 dis = np.sqrt(sum)
-                if dis > 7:
+                if dis > 1.5:
+                    # print('check1')
                     continue
-                q0_1,q0_2,q0_3,q0_4,q0_5 = self.nodelist[a].config
-                q1_1,q1_2,q1_3,q1_4,q1_5 = self.nodelist[b].config
-                x0 = Px(q0_1,q0_2,q0_3,q0_4,q0_5)
-                y0 = Py(q0_1,q0_2,q0_3,q0_4,q0_5)
-                z0 = Pz(q0_1,q0_2,q0_3,q0_4,q0_5)
-                x1 = Px(q1_1,q1_2,q1_3,q1_4,q1_5)
-                y1 = Py(q1_1,q1_2,q1_3,q1_4,q1_5)
-                z1 = Pz(q1_1,q1_2,q1_3,q1_4,q1_5)
-                P0 = np.array([x0,y0,z0])
-                P1 = np.array([x1,y1,z1])
-                #check if line is parallel to any axis
-                pdif = P1-P0
-                non_zero = np.count_nonzero(pdif)
-                if non_zero != 3:
-                    continue
-                for c in self.obstaclelist:
-                    #find whether P0 or P1 is closer to the obstacle
-                    dis0 = []
-                    dis1 = []
-                    for d in c.vertices:
-                        dis_e = sqrt((P0[0]-d[0])**2 + (P0[1]-d[1])**2 +(P0[2]-d[2])**2)
-                        dis_e1 = sqrt((P1[0]-d[0])**2 + (P1[1]-d[1])**2 +(P1[2]-d[2])**2)
-                        dis0.append(dis_e)
-                        dis1.append(dis_e1)
-                    mindis0 = min(dis0)
-                    mindis1 = min(dis1)
-
-                    if mindis1<mindis0:
-                        temp = P0
-                        P0 = P1
-                        P1 = temp
-                        dis0 = dis1
-
-                    #find the nearest and farthest vertices
-                    idx_f0 = dis0.index(min(dis0))
-                    idx_f1 = dis0.index(max(dis0))
-                    f0 = c.vertices[idx_f0]
-                    f1 = c.vertices[idx_f1]
-                    print(f0,f1)
-                    #find time representation of collision at each plane
-                    t0_x = ((f0[0] - P0[0]) / (P1[0] - P0[0]))
-                    t0_y = ((f0[1] - P0[1]) / (P1[1] - P0[1]))
-                    t0_z = ((f0[2] - P0[2]) / (P1[2] - P0[2]))
-                    t1_x = ((f1[0] - P0[0]) / (P1[0] - P0[0]))
-                    t1_y = ((f1[1] - P0[1]) / (P1[1] - P0[1]))
-                    t1_z = ((f1[2] - P0[2]) / (P1[2] - P0[2]))
-                    t0list = [t0_x,t0_y,t0_z]
-                    t1list = [t1_x,t1_y,t1_z]
-                    t0 = max(t0list)
-                    t1 = min(t1list)
-                    if t0<=t1:
-                        no_colission = False
+                percentile = [0.2,0.4,0.6,0.8]
+                for c in percentile:
+                    config = q1 + c*(q2-q1)
+                    q1_i,q2_i,q3_i,q4_i,q5_i = config.tolist()
+                    # print(q1_i,q2_i,q3_i,q4_i,q5_i)
+                    x = Px(q1_i,q2_i,q3_i,q4_i,q5_i)
+                    y = Py(q1_i,q2_i,q3_i,q4_i,q5_i)
+                    z = Pz(q1_i,q2_i,q3_i,q4_i,q5_i)
+                    # print(x,y,z)
+                    for d in self.obstaclelist:
+                        # print(d.twopoint)
+                        if d.twopoint[0][0] <= x and d.twopoint[1][0] >= x and d.twopoint[0][1] <= y and d.twopoint[1][1] >= y and d.twopoint[0][2] <= z and d.twopoint[1][2] >= z:
+                            no_colission = False
+                            break
+                    if no_colission == False:
                         break
                 # print(no_colission)
-                if no_colission == True:
+                if no_colission:
+                    # print('check1')
                     self.connection_idx.append((a,b))
                     self.nodelist[a].connectedNode.append(b)
                     self.nodelist[b].connectedNode.append(a)
+
+    def astar(self,q_init,q_goal):
+        Node_init = Node(q_init)
+        Node_goal = Node(q_goal)
+        self.put_node(Node_init)
+        self.put_node(Node_goal)
+        self.connect_graph()
+        current_Node = self.nodelist[len(self.nodelist)-2]
+        Node_goal = self.nodelist[len(self.nodelist)-1]
+        path = [current_Node.config]
+        cost = 0
+        scorelist = []
+        nodelist = []
+        layer = 1
+        layerlist = []
+        costlist = []
+        while current_Node != Node_goal:
+            for i in range(len(current_Node.connectedNode)):
+                Node_i = self.nodelist[current_Node.connectedNode[i]]
+                cost_i = cost + heuristic(current_Node.config,Node_i.config)
+                h = heuristic(Node_i.config,Node_goal.config)
+                scorelist.append(h+cost_i)
+                nodelist.append((layer,Node_i))
+                costlist.append(cost_i)
+            if layer != 1:
+                idx_previous = scorelist.index(previous_score)
+                scorelist.remove(scorelist[idx_previous])
+                nodelist.remove(nodelist[idx_previous])
+                costlist.remove(costlist[idx_previous])
+            idx = scorelist.index(min(scorelist))
+            if nodelist[idx][0] < layer:
+                diff = layer -nodelist[idx][0]
+                for j in range(diff):
+                    path.remove(path[len(path)-1])
+                layer = nodelist[idx][0]
+            print(layer)
+            cost = costlist[idx]
+            layerlist.append(layer)
+            current_Node = nodelist[idx][1]
+            layer+=1
+            path.append(current_Node.config)
+            previous_score = min(scorelist)
+        return path
+
