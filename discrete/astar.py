@@ -30,7 +30,6 @@ coord_pairs.loc[(coord_pairs.x1 == current_x) & (coord_pairs.y1 == current_y) & 
 def heuristic(a, b):
     return np.sqrt((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2 + (b[2] - a[2]) ** 2 + (b[3] - a[3]) ** 2 + (b[4] - a[4]) ** 2)
 
-
 def astar(start, goal):
     close_set = set()
     came_from = {}

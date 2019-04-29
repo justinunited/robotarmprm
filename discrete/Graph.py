@@ -13,7 +13,6 @@ def heuristic(config,goal_state):
     hq = np.sqrt(hq)
     return hq
 
-
 class Graph:
     def __init__(self):
         self.nodelist = []
@@ -26,7 +25,7 @@ class Graph:
         y = Py(q1,q2,q3,q4,q5)
         z = Pz(q1,q2,q3,q4,q5)
         intersect = 0
-        if z<0:
+        if z<0 or x>712.88:
             intersect = 1
         if intersect == 0:
             for i in self.obstaclelist:
@@ -153,6 +152,73 @@ class Graph:
                     self.connection_idx.append((a,b))
                     self.nodelist[a].connectedNode.append(b)
                     self.nodelist[b].connectedNode.append(a)
+        # print('done')
+
+    def visualizexyz_path(self,q_init,q_goal):
+        path = self.astar(q_init,q_goal)
+        print(path)
+        xlist = []
+        ylist = []
+        zlist = []
+        for i in self.nodelist:
+            (q1, q2, q3, q4, q5) = i.config[0], i.config[1], i.config[2], i.config[3], i.config[4]
+            x = Px(q1, q2, q3, q4, q5)
+            y = Py(q1, q2, q3, q4, q5)
+            z = Pz(q1, q2, q3, q4, q5)
+            xlist.append(x)
+            ylist.append(y)
+            zlist.append(z)
+        x_np = np.array(xlist)
+        y_np = np.array(ylist)
+        z_np = np.array(zlist)
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+        ax.scatter(x_np, y_np, z_np)
+
+        for i in self.obstaclelist:
+            xmin, ymin, zmin = i.twopoint[0]
+            xmax, ymax, zmax = i.twopoint[1]
+            sq1 = np.array([[xmin, ymin, zmin], [xmin, ymin, zmax], [xmax, ymin, zmax], [xmax, ymin, zmin]])
+            sq2 = np.array([[xmin, ymin, zmin], [xmin, ymax, zmin], [xmax, ymax, zmin], [xmax, ymin, zmin]])
+            sq3 = np.array([[xmin, ymin, zmin], [xmin, ymin, zmax], [xmin, ymax, zmax], [xmin, ymax, zmin]])
+            sq4 = np.array([[xmin, ymin, zmax], [xmin, ymax, zmax], [xmax, ymax, zmax], [xmax, ymin, zmax]])
+            sq5 = np.array([[xmax, ymin, zmin], [xmax, ymax, zmin], [xmax, ymax, zmax], [xmax, ymin, zmax]])
+            sq6 = np.array([[xmin, ymax, zmin], [xmax, ymax, zmin], [xmax, ymax, zmax], [xmin, ymax, zmax]])
+            squarelist = [sq1, sq2, sq3, sq4, sq5, sq6]
+            for i in squarelist:
+                x = i[:, 0]
+                y = i[:, 1]
+                z = i[:, 2]
+                verts = [list(zip(x, y, z))]
+                pc = Poly3DCollection(verts, facecolors='g')
+                line = Line3DCollection(verts, colors='k', linewidths=0.5)
+                ax.add_collection3d(pc)
+                ax.add_collection(line)
+        for i in self.connection_idx:
+            config_a = self.nodelist[i[0]].config
+            config_b = self.nodelist[i[1]].config
+            x_1 = Px(config_a[0], config_a[1], config_a[2], config_a[3], config_a[4])
+            y_1 = Py(config_a[0], config_a[1], config_a[2], config_a[3], config_a[4])
+            z_1 = Pz(config_a[0], config_a[1], config_a[2], config_a[3], config_a[4])
+            x_2 = Px(config_b[0], config_b[1], config_b[2], config_b[3], config_b[4])
+            y_2 = Py(config_b[0], config_b[1], config_b[2], config_b[3], config_b[4])
+            z_2 = Pz(config_b[0], config_b[1], config_b[2], config_b[3], config_b[4])
+            x = [x_1, x_2]
+            y = [y_1, y_2]
+            z = [z_1, z_2]
+            ax.plot(x, y, z, color='yellow')
+        for i in range(len(path)-1):
+            x_1 = Px(path[i][0], path[i][1], path[i][2], path[i][3], path[i][4])
+            y_1 = Py(path[i][0], path[i][1], path[i][2], path[i][3], path[i][4])
+            z_1 = Pz(path[i][0], path[i][1], path[i][2], path[i][3], path[i][4])
+            x_2 = Px(path[i+1][0], path[i+1][1], path[i+1][2], path[i+1][3], path[i+1][4])
+            y_2 = Py(path[i+1][0], path[i+1][1], path[i+1][2], path[i+1][3], path[i+1][4])
+            z_2 = Pz(path[i+1][0], path[i+1][1], path[i+1][2], path[i+1][3], path[i+1][4])
+            x = [x_1, x_2]
+            y = [y_1, y_2]
+            z = [z_1, z_2]
+            ax.plot(x, y, z, color='red')
+        plt.show(ax)
 
     def astar(self,q_init,q_goal):
         Node_init = Node(q_init)
@@ -184,16 +250,59 @@ class Graph:
                 scorelist.remove(scorelist[idx])
                 nodelist.remove(nodelist[idx])
                 costlist.remove(costlist[idx])
+                path_explored.remove(path_explored[idx])
             idx = scorelist.index(min(scorelist))
             x = 1
             cost = costlist[idx]
             current_Node = nodelist[idx]
-            for i in path_explored:
-                if i[len(i)-1] == current_Node:
-                    path = i.copy()
-                    path_explored.remove(i)
+            path = path_explored[idx]
+            # for i in path_explored:
+            #     if i[len(i)-1] == current_Node:
+            #         path = i.copy()
+            #         path_explored.remove(i)
+        print('finished loop')
         path_config = []
         for i in path:
             path_config.append(i.config)
         return path_config
 
+    def visualize15zpath(self,q_init,q_goal):
+        path = self.astar(q_init,q_goal)
+        print('done')
+        print(path)
+        pointlist = []
+        for i in self.nodelist:
+            (q1, q2, q3, q4, q5) = i.config[0], i.config[1], i.config[2], i.config[3], i.config[4]
+            z = Pz(q1, q2, q3, q4, q5)
+            pointlist.append([q1,q5,z])
+        np_pointlist = np.array(pointlist)
+        q1list = np_pointlist[:,0]
+        q5list = np_pointlist[:,1]
+        zlist = np_pointlist[:, 2]
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+        ax.scatter(q1list,q5list,zlist)
+        for i in self.connection_idx:
+            config_a = self.nodelist[i[0]].config
+            config_b = self.nodelist[i[1]].config
+            z_1 = Pz(config_a[0],config_a[1],config_a[2],config_a[3],config_a[4])
+            z_2 = Pz(config_b[0],config_b[1],config_b[2],config_b[3],config_b[4])
+            q1 = [config_a[0],config_b[0]]
+            q5 = [config_a[4],config_b[4]]
+            z = [z_1,z_2]
+            ax.plot(q1,q5,z, color='yellow')
+        for i in range(len(path) - 1):
+            q1_1 = path[i][0]
+            q5_1 = path[i][4]
+            z_1 = Pz(path[i][0], path[i][1], path[i][2], path[i][3], path[i][4])
+            q1_2 = path[i+1][0]
+            q5_2 = path[i+1][4]
+            z_2 = Pz(path[i+1][0], path[i+1][1], path[i+1][2], path[i+1][3], path[i+1][4])
+            q1 = [q1_1,q1_2]
+            q5 = [q5_1,q5_2]
+            z = [z_1,z_2]
+            ax.plot(q1, q5, z, color='red')
+        plt.show(ax)
+
+    def trajectories_generation(self,viapoint,T):
+        pass
