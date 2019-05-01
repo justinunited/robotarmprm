@@ -3,6 +3,7 @@ from Graph import Graph
 from Node import Node
 from math import pi
 from random import uniform
+import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -17,18 +18,31 @@ from ForwardKinematics import Px, Py, Pz,Pz2
 #
 # ### simulation code
 Graph1 = Graph()
-obstacle1 = Obstacle([536.5,513,0],[712.88,-552.32,40])
-obstacle2 = Obstacle([536.5,513.79,1052],[712.88,-552.32,1082])
-obstacle3 = Obstacle([535.87,493.8,40],[713.51,439.18,1052])
-obstacle4 = Obstacle([535.13,-477.71,40],[713.51,-532.33,1052])
-obstacle5 = Obstacle([536.5,435.83,361.47],[728.82,-48.33,387.34])
-obstacle6 = Obstacle([536.5,435.83,722.8],[728.82,-48.33,748.67])
-obstacle7 = Obstacle([536.5,225.94,40],[728.82,171.32,1052])
-obstacle8 = Obstacle([536.5,-41.93,40],[728.82,-96.55,1052])
-obstacle9 = Obstacle([536.5,-96.55,238],[728.82,-477.71,286])
-obstacle10 = Obstacle([536.5,-96.55,516],[728.82,-477.71,564])
-obstacle11 = Obstacle([536.5,-96.55,784],[728.82,-477.71,832])
-obstacle12 = Obstacle([536.5,-259.82,40],[728.82,-314.44,1052])
+# obstacle1 = Obstacle([536.5,513,0],[712.88,-552.32,40])
+# obstacle2 = Obstacle([536.5,513.79,1052],[712.88,-552.32,1082])
+# obstacle3 = Obstacle([535.87,493.8,40],[713.51,439.18,1052])
+# obstacle4 = Obstacle([535.13,-477.71,40],[713.51,-532.33,1052])
+# obstacle5 = Obstacle([536.5,435.83,361.47],[728.82,-48.33,387.34])
+# obstacle6 = Obstacle([536.5,435.83,722.8],[728.82,-48.33,748.67])
+# obstacle7 = Obstacle([536.5,225.94,40],[728.82,171.32,1052])
+# obstacle8 = Obstacle([536.5,-41.93,40],[728.82,-96.55,1052])
+# obstacle9 = Obstacle([536.5,-96.55,238],[728.82,-477.71,286])
+# obstacle10 = Obstacle([536.5,-96.55,516],[728.82,-477.71,564])
+# obstacle11 = Obstacle([536.5,-96.55,784],[728.82,-477.71,832])
+# obstacle12 = Obstacle([536.5,-259.82,40],[728.82,-314.44,1052])
+obstacle1 = Obstacle([230,540,0],[790,470,1039.99])
+obstacle2 = Obstacle([230,-470,0],[790,-540,1039.99])
+obstacle3 = Obstacle([520,-380,0],[780,-530,1039.99])
+obstacle4 = Obstacle([520,530,969.99],[780,-440,1039.99])
+obstacle5 = Obstacle([520,530,0],[790,-540,40])
+obstacle6 = Obstacle([520,280,10],[790,210,1029.99])
+obstacle7 = Obstacle([520,0,10],[790,-40,1029.99])
+obstacle8 = Obstacle([520,-170,10],[790,-240,1029.99])
+obstacle9 = Obstacle([520,520,636.66],[790,-30,706.66])
+obstacle10 = Obstacle([520,520,303.33],[790,-30,373.33])
+obstacle11 = Obstacle([520,-20,720],[790,-430,790])
+obstacle12 = Obstacle([520,-20,470],[790,-430,540])
+obstacle13 = Obstacle([520,-20,220],[790,-430,290])
 Graph1.put_obstacle(obstacle1)
 Graph1.put_obstacle(obstacle2)
 Graph1.put_obstacle(obstacle3)
@@ -41,7 +55,8 @@ Graph1.put_obstacle(obstacle9)
 Graph1.put_obstacle(obstacle10)
 Graph1.put_obstacle(obstacle11)
 Graph1.put_obstacle(obstacle12)
-while len(Graph1.nodelist)<100:
+Graph1.put_obstacle(obstacle13)
+while len(Graph1.nodelist)<300:
     q1 = uniform(-2/3*pi,2/3*pi)
     q2 = uniform(-185/180*pi,20/180*pi)
     q3 = uniform(-19/180*pi,3/2*pi)
@@ -53,15 +68,19 @@ while len(Graph1.nodelist)<100:
         Graph1.put_node(Node_i)
     print(len(Graph1.nodelist))
 Graph1.connect_graph()
+filename = 'Graph.gph'
+with open(filename,'wb') as Graphfile:
+    pickle.dump(Graph1,Graphfile)
+
 # path = Graph1.astar([0,0,0,0,0],[1,-1,1,0,0])
 # print(path)
 # print('done')
 # Graph1.visualizexyz()
-Graph1.visualize15zpath([0,0,0,0,0],[1,-1,1,0,0])
-# Graph1.visualize15z_path([0,0,0,0,0],[1,-1,1,0,0])
+Graph1.visualizexyz_path([0,0,0,0,0],[1,-1,1,0,0])
+# Graph1.visualize15zpath([0,0,0,0,0],[1,-1,1,0,0])
 # from ForwardKinematics import Px,Py,Pz
 # from InverseKinematics import inverseKinematics
 #
 # print(Px(0,0,0,0,0),Py(0,0,0,0,0),Pz(0,0,0,0,0))
 # print(inverseKinematics(532.2819426697325,0.0, 715.8770483143634,0))
-# print(Px(0.0, -0.24541250634982736, 0.21370438653764268, 0.03170811981218469, 0.0),Py(0.0, -0.24541250634982736, 0.21370438653764268, 0.03170811981218469, 0.0),Pz(0.0, -0.24541250634982736, 0.21370438653764268, 0.03170811981218469, 0.0))
+# print(Px(0.0, -0.24541250634982736, 0.21370438653764268, 0.03170811981218469, 0q.0),Py(0.0, -0.24541250634982736, 0.21370438653764268, 0.03170811981218469, 0.0),Pz(0.0, -0.24541250634982736, 0.21370438653764268, 0.03170811981218469, 0.0))

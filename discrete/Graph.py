@@ -25,8 +25,11 @@ class Graph:
         y = Py(q1,q2,q3,q4,q5)
         z = Pz(q1,q2,q3,q4,q5)
         intersect = 0
-        if z<0 or x>712.88:
+        if z<30 or x>740:
             intersect = 1
+        if x>30:
+            if y >510 or y< -510:
+                intersect = 1
         if intersect == 0:
             for i in self.obstaclelist:
                 if i.twopoint[0][0] < x and i.twopoint[1][0] > x and i.twopoint[0][1] < y and i.twopoint[1][1] > y and i.twopoint[0][2] < z and i.twopoint[1][2] > z:
@@ -116,6 +119,7 @@ class Graph:
         plt.show(ax)
 
     def connect_graph(self):
+        i = 0
         for a in range(len(self.nodelist)):
             for b in range(len(self.nodelist)):
                 if self.nodelist[a] == self.nodelist[b] or (b,a) in self.connection_idx or (a,b) in self.connection_idx:
@@ -130,7 +134,7 @@ class Graph:
                 if dis > 1.5:
                     # print('check1')
                     continue
-                percentile = [0.2,0.4,0.6,0.8]
+                percentile = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
                 for c in percentile:
                     config = q1 + c*(q2-q1)
                     q1_i,q2_i,q3_i,q4_i,q5_i = config.tolist()
@@ -152,7 +156,9 @@ class Graph:
                     self.connection_idx.append((a,b))
                     self.nodelist[a].connectedNode.append(b)
                     self.nodelist[b].connectedNode.append(a)
-        # print('done')
+            i+=1
+            print(i)
+        print('done')
 
     def visualizexyz_path(self,q_init,q_goal):
         path = self.astar(q_init,q_goal)
@@ -192,8 +198,8 @@ class Graph:
                 verts = [list(zip(x, y, z))]
                 pc = Poly3DCollection(verts, facecolors='g')
                 line = Line3DCollection(verts, colors='k', linewidths=0.5)
-                ax.add_collection3d(pc)
-                ax.add_collection(line)
+                # ax.add_collection3d(pc)
+                # ax.add_collection(line)
         for i in self.connection_idx:
             config_a = self.nodelist[i[0]].config
             config_b = self.nodelist[i[1]].config
@@ -252,6 +258,7 @@ class Graph:
                 costlist.remove(costlist[idx])
                 path_explored.remove(path_explored[idx])
             idx = scorelist.index(min(scorelist))
+            print(scorelist[idx])
             x = 1
             cost = costlist[idx]
             current_Node = nodelist[idx]
@@ -268,7 +275,6 @@ class Graph:
 
     def visualize15zpath(self,q_init,q_goal):
         path = self.astar(q_init,q_goal)
-        print('done')
         print(path)
         pointlist = []
         for i in self.nodelist:
