@@ -119,7 +119,7 @@ class Graph:
         plt.show(ax)
 
     def connect_graph(self):
-        i = 0
+        # i = 0
         for a in range(len(self.nodelist)):
             for b in range(len(self.nodelist)):
                 if self.nodelist[a] == self.nodelist[b] or (b,a) in self.connection_idx or (a,b) in self.connection_idx:
@@ -156,8 +156,8 @@ class Graph:
                     self.connection_idx.append((a,b))
                     self.nodelist[a].connectedNode.append(b)
                     self.nodelist[b].connectedNode.append(a)
-            i+=1
-            print(i)
+            # i+=1
+            # print(i)
         print('done')
 
     def visualizexyz_path(self,q_init,q_goal):
@@ -198,8 +198,8 @@ class Graph:
                 verts = [list(zip(x, y, z))]
                 pc = Poly3DCollection(verts, facecolors='g')
                 line = Line3DCollection(verts, colors='k', linewidths=0.5)
-                # ax.add_collection3d(pc)
-                # ax.add_collection(line)
+                ax.add_collection3d(pc)
+                ax.add_collection(line)
         for i in self.connection_idx:
             config_a = self.nodelist[i[0]].config
             config_b = self.nodelist[i[1]].config
@@ -267,7 +267,7 @@ class Graph:
             #     if i[len(i)-1] == current_Node:
             #         path = i.copy()
             #         path_explored.remove(i)
-        print('finished loop')
+        # print('finished loop')
         path_config = []
         for i in path:
             path_config.append(i.config)
