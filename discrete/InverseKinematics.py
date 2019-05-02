@@ -1,12 +1,12 @@
 from math import atan2, cos,sin,sqrt,pi
 from ForwardKinematics import Px, Py, Pz
 def inverseKinematics(x,y,z,facing_angle):
-    l1 = 373
+    l1 = 371.7
     l2 = 96.12
     l3 = 400
     l4 = 400
     l5 = 89.97
-    l6 = 83
+    l6 = 93
     x5 = x - l6 * cos(facing_angle)
     y5 = y - l6 * sin(facing_angle)
     r = sqrt(x5**2 + y5**2)

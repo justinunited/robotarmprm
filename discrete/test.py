@@ -82,7 +82,7 @@ with open(filename,'wb') as Graphfile:
 # print(path)
 # print('done')
 # Graph1.visualizexyz()
-Graph1.visualizexyz_path([0,0,0,0,0],[1,-1,1,0,0])
+# Graph1.visualizexyz_path([0,0,0,0,0],[1,-1,1,0,0])
 # Graph1.visualize15zpath([0,0,0,0,0],[1,-1,1,0,0])
 # from ForwardKinematics import Px,Py,Pz
 # from InverseKinematics import inverseKinematics
