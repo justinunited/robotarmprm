@@ -163,23 +163,23 @@ class Graph:
     def visualizexyz_path(self,q_init,q_goal):
         path = self.astar(q_init,q_goal)
         print(path)
-        xlist = []
-        ylist = []
-        zlist = []
-        for i in self.nodelist:
-            (q1, q2, q3, q4, q5) = i.config[0], i.config[1], i.config[2], i.config[3], i.config[4]
-            x = Px(q1, q2, q3, q4, q5)
-            y = Py(q1, q2, q3, q4, q5)
-            z = Pz(q1, q2, q3, q4, q5)
-            xlist.append(x)
-            ylist.append(y)
-            zlist.append(z)
-        x_np = np.array(xlist)
-        y_np = np.array(ylist)
-        z_np = np.array(zlist)
+        # xlist = []
+        # ylist = []
+        # zlist = []
+        # for i in self.nodelist:
+        #     (q1, q2, q3, q4, q5) = i.config[0], i.config[1], i.config[2], i.config[3], i.config[4]
+        #     x = Px(q1, q2, q3, q4, q5)
+        #     y = Py(q1, q2, q3, q4, q5)
+        #     z = Pz(q1, q2, q3, q4, q5)
+        #     xlist.append(x)
+        #     ylist.append(y)
+        #     zlist.append(z)
+        # x_np = np.array(xlist)
+        # y_np = np.array(ylist)
+        # z_np = np.array(zlist)
         fig = plt.figure()
         ax = fig.gca(projection='3d')
-        ax.scatter(x_np, y_np, z_np)
+        # ax.scatter(x_np, y_np, z_np)
 
         for i in self.obstaclelist:
             xmin, ymin, zmin = i.twopoint[0]
@@ -198,21 +198,21 @@ class Graph:
                 verts = [list(zip(x, y, z))]
                 pc = Poly3DCollection(verts, facecolors='g')
                 line = Line3DCollection(verts, colors='k', linewidths=0.5)
-                ax.add_collection3d(pc)
+                # ax.add_collection3d(pc)
                 ax.add_collection(line)
-        for i in self.connection_idx:
-            config_a = self.nodelist[i[0]].config
-            config_b = self.nodelist[i[1]].config
-            x_1 = Px(config_a[0], config_a[1], config_a[2], config_a[3], config_a[4])
-            y_1 = Py(config_a[0], config_a[1], config_a[2], config_a[3], config_a[4])
-            z_1 = Pz(config_a[0], config_a[1], config_a[2], config_a[3], config_a[4])
-            x_2 = Px(config_b[0], config_b[1], config_b[2], config_b[3], config_b[4])
-            y_2 = Py(config_b[0], config_b[1], config_b[2], config_b[3], config_b[4])
-            z_2 = Pz(config_b[0], config_b[1], config_b[2], config_b[3], config_b[4])
-            x = [x_1, x_2]
-            y = [y_1, y_2]
-            z = [z_1, z_2]
-            ax.plot(x, y, z, color='yellow')
+        # for i in self.connection_idx:
+        #     config_a = self.nodelist[i[0]].config
+        #     config_b = self.nodelist[i[1]].config
+        #     x_1 = Px(config_a[0], config_a[1], config_a[2], config_a[3], config_a[4])
+        #     y_1 = Py(config_a[0], config_a[1], config_a[2], config_a[3], config_a[4])
+        #     z_1 = Pz(config_a[0], config_a[1], config_a[2], config_a[3], config_a[4])
+        #     x_2 = Px(config_b[0], config_b[1], config_b[2], config_b[3], config_b[4])
+        #     y_2 = Py(config_b[0], config_b[1], config_b[2], config_b[3], config_b[4])
+        #     z_2 = Pz(config_b[0], config_b[1], config_b[2], config_b[3], config_b[4])
+        #     x = [x_1, x_2]
+        #     y = [y_1, y_2]
+        #     z = [z_1, z_2]
+        #     ax.plot(x, y, z, color='yellow')
         for i in range(len(path)-1):
             x_1 = Px(path[i][0], path[i][1], path[i][2], path[i][3], path[i][4])
             y_1 = Py(path[i][0], path[i][1], path[i][2], path[i][3], path[i][4])
