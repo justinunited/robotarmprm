@@ -63,7 +63,7 @@ while len(Graph1.nodelist)<300:
     q2 = uniform(-185/180*pi,20/180*pi)
     q3 = uniform(-19/180*pi,3/2*pi)
     q4 = -q2-q3
-    q5 = uniform(-2/3*pi,2/3*pi)
+    q5 = uniform(-80*pi/180,80*pi/180)
     # print(q1,q2,q3,q4,q5)
     x5 = Px(q1,q2,q3,q4,q5)-83*cos(q1+q5)
     y5 = Py(q1,q2,q3,q4,q5)-83*sin(q1+q5)
