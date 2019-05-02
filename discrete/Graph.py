@@ -258,7 +258,7 @@ class Graph:
                 costlist.remove(costlist[idx])
                 path_explored.remove(path_explored[idx])
             idx = scorelist.index(min(scorelist))
-            print(scorelist[idx])
+            # print(scorelist[idx])
             x = 1
             cost = costlist[idx]
             current_Node = nodelist[idx]
