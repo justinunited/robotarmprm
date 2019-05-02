@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from math import sin, cos, atan2, pi,sqrt
 from ForwardKinematics import Px, Py, Pz,Pz2
+from InverseKinematics import inverseKinematics
 # print(Pz(0,-0.5,0.5,0,0))
 # print(Pz2(0,-0.5,0.5,0,0))
 # from mpl_toolkits.mplot3d import Axes3D
@@ -72,6 +73,14 @@ while len(Graph1.nodelist)<300:
     if q4 > (-2/3*pi) and q4 < (2/3*pi):
         Node_i = Node([q1,q2,q3,q4,q5])
         Graph1.put_node(Node_i)
+    print(len(Graph1.nodelist))
+while len(Graph1.nodelist)<330:
+    x = uniform(400,550)
+    y = uniform(-500,500)
+    z = uniform(40,300)
+    q1,q2,q3,q4,q5 = inverseKinematics(x,y,z,0)
+    Node_i = Node([q1, q2, q3, q4, q5])
+    Graph1.put_node(Node_i)
     print(len(Graph1.nodelist))
 Graph1.connect_graph()
 filename = 'Graph.gph'

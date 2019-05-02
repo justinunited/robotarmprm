@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection,Line3DCollection
 from mpl_toolkits.mplot3d import Axes3D
-from math import sqrt
+from math import sqrt, pi
 
 
 def heuristic(config,goal_state):
@@ -34,7 +34,9 @@ class Graph:
             for i in self.obstaclelist:
                 if i.twopoint[0][0] < x and i.twopoint[1][0] > x and i.twopoint[0][1] < y and i.twopoint[1][1] > y and i.twopoint[0][2] < z and i.twopoint[1][2] > z:
                     intersect = 1
+                    # print('is in obstacle')
                     break
+        # print(intersect)
         if intersect == 0:
             self.nodelist.append(Node)
 
@@ -122,7 +124,10 @@ class Graph:
         # i = 0
         for a in range(len(self.nodelist)):
             for b in range(len(self.nodelist)):
-                if self.nodelist[a] == self.nodelist[b] or (b,a) in self.connection_idx or (a,b) in self.connection_idx:
+                if self.nodelist[a] == self.nodelist[b]:
+                    continue
+                if (b,a) in self.connection_idx or (a,b) in self.connection_idx:
+                    # print('in index')
                     continue
                 no_colission = True
                 q1 = np.array(self.nodelist[a].config)
@@ -131,7 +136,7 @@ class Graph:
                 dis_s = np.square(diff)
                 sum = np.sum(dis_s)
                 dis = np.sqrt(sum)
-                if dis > 1.5:
+                if dis > 1.8:
                     # print('check1')
                     continue
                 percentile = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
@@ -153,6 +158,7 @@ class Graph:
                 # print(no_colission)
                 if no_colission:
                     # print('check1')
+                    # print('connect')
                     self.connection_idx.append((a,b))
                     self.nodelist[a].connectedNode.append(b)
                     self.nodelist[b].connectedNode.append(a)
@@ -163,23 +169,23 @@ class Graph:
     def visualizexyz_path(self,q_init,q_goal):
         path = self.astar(q_init,q_goal)
         print(path)
-        # xlist = []
-        # ylist = []
-        # zlist = []
-        # for i in self.nodelist:
-        #     (q1, q2, q3, q4, q5) = i.config[0], i.config[1], i.config[2], i.config[3], i.config[4]
-        #     x = Px(q1, q2, q3, q4, q5)
-        #     y = Py(q1, q2, q3, q4, q5)
-        #     z = Pz(q1, q2, q3, q4, q5)
-        #     xlist.append(x)
-        #     ylist.append(y)
-        #     zlist.append(z)
-        # x_np = np.array(xlist)
-        # y_np = np.array(ylist)
-        # z_np = np.array(zlist)
+        xlist = []
+        ylist = []
+        zlist = []
+        for i in self.nodelist:
+            (q1, q2, q3, q4, q5) = i.config[0], i.config[1], i.config[2], i.config[3], i.config[4]
+            x = Px(q1, q2, q3, q4, q5)
+            y = Py(q1, q2, q3, q4, q5)
+            z = Pz(q1, q2, q3, q4, q5)
+            xlist.append(x)
+            ylist.append(y)
+            zlist.append(z)
+        x_np = np.array(xlist)
+        y_np = np.array(ylist)
+        z_np = np.array(zlist)
         fig = plt.figure()
         ax = fig.gca(projection='3d')
-        # ax.scatter(x_np, y_np, z_np)
+        ax.scatter(x_np, y_np, z_np)
 
         for i in self.obstaclelist:
             xmin, ymin, zmin = i.twopoint[0]
@@ -258,6 +264,7 @@ class Graph:
                 costlist.remove(costlist[idx])
                 path_explored.remove(path_explored[idx])
             idx = scorelist.index(min(scorelist))
+            print(len(scorelist))
             # print(scorelist[idx])
             x = 1
             cost = costlist[idx]
@@ -270,7 +277,7 @@ class Graph:
         # print('finished loop')
         path_config = []
         for i in path:
-            path_config.append(i.config)
+            path_config.append((np.array(i.config)*180/pi).tolist())
         return path_config
 
     def visualize15zpath(self,q_init,q_goal):
