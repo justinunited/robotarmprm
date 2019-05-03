@@ -277,7 +277,8 @@ class Graph:
         # print('finished loop')
         path_config = []
         for i in path:
-            path_config.append((np.array(i.config)*180/pi).tolist())
+            path_config.append(i.config)
+            # path_config.append((np.array(i.config)*180/pi).tolist())
         return path_config
 
     def visualize15zpath(self,q_init,q_goal):
