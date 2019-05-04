@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="455a0bf9-12df-4872-ab93-f8df9bd073b6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/discrete/ForwardKinematics.py" afterPath="$PROJECT_DIR$/discrete/ForwardKinematics.py" />
-      <change beforePath="$PROJECT_DIR$/discrete/Graph.py" afterPath="$PROJECT_DIR$/discrete/Graph.py" />
-      <change beforePath="$PROJECT_DIR$/discrete/InverseKinematics.py" afterPath="$PROJECT_DIR$/discrete/InverseKinematics.py" />
-      <change beforePath="$PROJECT_DIR$/discrete/Open_Graph.py" afterPath="$PROJECT_DIR$/discrete/Open_Graph.py" />
-      <change beforePath="$PROJECT_DIR$/robotarm/ForwardKinematics.py" afterPath="$PROJECT_DIR$/robotarm/ForwardKinematics.py" />
-      <change beforePath="$PROJECT_DIR$/robotarm/InverseKinematics.py" afterPath="$PROJECT_DIR$/robotarm/InverseKinematics.py" />
-    </list>
+    <list default="true" id="455a0bf9-12df-4872-ab93-f8df9bd073b6" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,18 +18,6 @@
               <caret line="282" column="23" lean-forward="true" selection-start-line="282" selection-start-column="23" selection-end-line="282" selection-end-column="23" />
               <folding>
                 <element signature="e#110#128#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Graph.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/discrete/Graph.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-481">
-              <caret line="239" column="28" lean-forward="true" selection-start-line="239" selection-start-column="28" selection-end-line="239" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#38#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,11 +59,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Open_Graph.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Open_Graph.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/discrete/Open_Graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="10" column="36" lean-forward="false" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+            <state relative-caret-position="294">
+              <caret line="14" column="25" lean-forward="true" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -110,6 +91,16 @@
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Graph.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/discrete/Graph.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -406,16 +397,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/discrete/Graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-481">
-          <caret line="239" column="28" lean-forward="true" selection-start-line="239" selection-start-column="28" selection-end-line="239" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/discrete/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -448,11 +429,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/discrete/Open_Graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="36" lean-forward="false" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+        <state relative-caret-position="294">
+          <caret line="14" column="25" lean-forward="true" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discrete/Graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
