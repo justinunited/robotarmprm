@@ -48,7 +48,6 @@ def sendCommand(command, ser):
                 ser.write(bytes(command))
             elif response == 'done':
                 return 1
-                break
             # elif response == 'starting':
             #     break
             else:
