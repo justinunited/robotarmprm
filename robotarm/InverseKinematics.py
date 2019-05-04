@@ -1,12 +1,12 @@
 from math import atan2, cos,sin,sqrt,pi
 from ForwardKinematics import Px, Py, Pz
 def inverseKinematics(x,y,z,facing_angle):
-    l1 = 373
+    l1 = 371.7
     l2 = 96.12
     l3 = 400
     l4 = 400
     l5 = 89.97
-    l6 = 83
+    l6 = 93
     x5 = x - l6 * cos(facing_angle)
     y5 = y - l6 * sin(facing_angle)
     r = sqrt(x5**2 + y5**2)
@@ -31,19 +31,20 @@ def inverseKinematics(x,y,z,facing_angle):
                     l3 ** 2 + 2 * cos(off - q3) * l3 * l4 + l4 ** 2)
         q2 = atan2(sin_q2, cos_q2)
     q4 = - q2 - q3
-    # q1 = q1*180/pi
-    # q2 = q2 * 180 / pi
-    # q3 = q3 * 180 / pi
-    # q4 = q4 * 180 / pi
-    # q5 = q5 * 180 / pi
+    q1 = q1*180/pi
+    q2 = q2 * 180 / pi
+    q3 = q3 * 180 / pi
+    q4 = q4 * 180 / pi
+    q5 = q5 * 180 / pi
     return(q1,q2,q3,q4,q5)
 
 
 #
 # q1,q2,q3,q4,q5 = inverseKinematics(651.74,371.22,776.66,0)
-# # x = Px(0,0,0,0,0)
-# # y = Py(0,0,0,0,0)
-# # z = Pz(0,0,0,0,0)
+# x = Px(0,0,0,0,0)
+# y = Py(0,0,0,0,0)
+# z = Pz(0,0,0,0,0)
+# print(x,y,z)
 # # q1,q2,q3,q4,q5 = inverseKinematics(x,y,z,0)
 # print(q1,q2,q3,q4,q5)
 # print(Px(q1,q2,q3,q4,q5),Py(q1,q2,q3,q4,q5),Pz(q1,q2,q3,q4,q5))

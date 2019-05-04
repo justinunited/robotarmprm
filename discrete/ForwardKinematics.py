@@ -40,12 +40,12 @@ def Pz(q1,q2,q3,q4,q5):
 
 def Pz2(q1,q2,q3,q4,q5):
     off = 120 / 180 * pi
-    l1 = 373
+    l1 = 371.7
     l2 = 96.12
     l3 = 400
     l4 = 400
     l5 = 89.97
-    l6 = 83
+    l6 = 93
     z = l1+l3*sin(q2+off)+l4*sin(q2+q3)
     return z
 

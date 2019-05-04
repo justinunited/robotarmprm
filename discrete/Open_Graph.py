@@ -7,7 +7,7 @@ with open('Graph.gph','rb') as Graph1_file:
     Graph1 = pickle.load(Graph1_file)
 
 q1,q2,q3,q4,q5 = inverseKinematics(-350,-650,600,-pi/2)
-print(q1,q2,q3,q4,q5)
+# print(q1,q2,q3,q4,q5)
 path = Graph1.astar([0,0,0,0,0],[q1,q2,q3,q4,q5])
 print(path)
 # a = []

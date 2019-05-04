@@ -242,7 +242,7 @@ class Graph:
         print('current node', current_Node.config)
         print('goal node',Node_goal.config)
         Node_goal = self.nodelist[len(self.nodelist)-1]
-        print('goal node', Node_goal.config)
+        # print('goal node', Node_goal.config)
         path = [current_Node]
         cost = 0
         scorelist = []
@@ -270,7 +270,7 @@ class Graph:
                 path_explored.remove(path_explored[idx])
             idx = scorelist.index(min(scorelist))
             # print(len(scorelist))
-            print('current_Node',current_Node.config)
+            # print('current_Node',current_Node.config)
             # print('goal node',Node_goal.config)
             x = 1
             cost = costlist[idx]

@@ -40,11 +40,16 @@ def inverseKinematics(x,y,z,facing_angle):
 
 
 #
-# q1,q2,q3,q4,q5 = inverseKinematics(651.74,371.22,776.66,0)
-# # x = Px(0,0,0,0,0)
-# # y = Py(0,0,0,0,0)
-# # z = Pz(0,0,0,0,0)
-# # q1,q2,q3,q4,q5 = inverseKinematics(x,y,z,0)
+
+# x = Px(0,0,0,0,0)
+# y = Py(0,0,0,0,0)
+# z = Pz(0,0,0,0,0)
+# print(x,y,z)
+# q1,q2,q3,q4,q5 = inverseKinematics(469.09,0,718.11,0)
+# print(q1,q2,q3,q4,q5)
+# q1,q2,q3,q4,q5 = inverseKinematics(x,y,z,0)
+
+# q1,q2,q3,q4,q5 = inverseKinematics(x,y,z,0)
 # print(q1,q2,q3,q4,q5)
 # print(Px(q1,q2,q3,q4,q5),Py(q1,q2,q3,q4,q5),Pz(q1,q2,q3,q4,q5))
 
