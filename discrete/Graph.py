@@ -239,7 +239,10 @@ class Graph:
         self.put_node(Node_goal)
         self.connect_graph()
         current_Node = self.nodelist[len(self.nodelist)-2]
+        print('current node', current_Node.config)
+        print('goal node',Node_goal.config)
         Node_goal = self.nodelist[len(self.nodelist)-1]
+        print('goal node', Node_goal.config)
         path = [current_Node]
         cost = 0
         scorelist = []
@@ -247,11 +250,13 @@ class Graph:
         costlist = []
         path_explored = []
         x = 0
+        # print('goal node', Node_goal.config)
         while current_Node != Node_goal:
             for i in range(len(current_Node.connectedNode)):
                 path_i = path.copy()
                 Node_i = self.nodelist[current_Node.connectedNode[i]]
                 cost_i = cost + heuristic(current_Node.config,Node_i.config)
+                # print('goal node', Node_goal.config)
                 h = heuristic(Node_i.config,Node_goal.config)
                 path_i.append(Node_i)
                 scorelist.append(h+cost_i)
@@ -264,8 +269,9 @@ class Graph:
                 costlist.remove(costlist[idx])
                 path_explored.remove(path_explored[idx])
             idx = scorelist.index(min(scorelist))
-            print(len(scorelist))
-            # print(scorelist[idx])
+            # print(len(scorelist))
+            print('current_Node',current_Node.config)
+            # print('goal node',Node_goal.config)
             x = 1
             cost = costlist[idx]
             current_Node = nodelist[idx]
@@ -276,6 +282,7 @@ class Graph:
             #         path_explored.remove(i)
         # print('finished loop')
         path_config = []
+        # print(path)
         for i in path:
             path_config.append(i.config)
             # path_config.append((np.array(i.config)*180/pi).tolist())

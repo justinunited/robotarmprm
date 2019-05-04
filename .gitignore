@@ -1,0 +1,6 @@
+
+*.dll
+*.pyd
+*.tcl
+discrete/venv/Scripts/python.exe
+discrete/venv/Scripts/pythonw.exe
