@@ -12,8 +12,8 @@ z = Pz(0,0,0,0,0)
 print(x,y,z)
 q1,q2,q3,q4,q5 = inverseKinematics(-380, -632, 510, -pi / 2)
 # print(q1,q2,q3,q4,q5)
-q1_f,q2_f,q3_f,q4_f,q5_f = inverseKinematics(636.76, 371.22, 901.66, 0)
-Graph1.visualizexyz_path([q1,q2,q3,q4,q5],[q1_f,q2_f,q3_f,q4_f,q5_f])
+q1_f,q2_f,q3_f,q4_f,q5_f = inverseKinematics(436.76, 371.22, 240, 0)
+Graph1.visualizexyz_path([0, 0, pi/3, -pi/3, 0],[q1,q2,q3,q4,q5])
 # print(path)
 
 # a = []

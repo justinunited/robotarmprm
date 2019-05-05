@@ -158,8 +158,8 @@ class Graph:
                             break
                     if no_colission == False:
                         break
-                if self.nodelist[a].config == [0,0,0,0,0] or self.nodelist[b].config == [0,0,0,0,0]:
-                    no_colission = True
+                # if self.nodelist[a].config == [0,0,0,0,0] or self.nodelist[b].config == [0,0,0,0,0]:
+                #     no_colission = True
                 # print(no_colission)
                 if no_colission:
                     # print('check1')
