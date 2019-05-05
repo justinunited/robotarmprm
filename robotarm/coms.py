@@ -77,6 +77,10 @@ while(1):
             elif keyinput == 'pre':
                 ind = int(input("input index:"))
                 sendPreset(ind, serialDevice)
+            elif keyinput == 'path':
+                initial = input('input starting point: ')
+                final = input('input goal point: ')
+                pathTraversal(initial, final, 0, 0, serialDevice)
 
 serialDevice.close()
 print("end")

@@ -205,7 +205,6 @@ def softReset(ser):
     sendCommand(buffer, ser)
 
 
-
 def sendInverse(x, y, z, facing_angle, ser):
     q1, q2, q3, q4, q5 = inverseKinematics(x, y, z, facing_angle)
     a = sendTarget(q1, q2, q3, q4, q5, ser)
@@ -214,38 +213,54 @@ def sendInverse(x, y, z, facing_angle, ser):
     else:
         return 0
 
+
 def pathTraversal(initial, final, type, mode, ser):
     with open('Graph.gph', 'rb') as Graph1_file:
         Graph1 = pickle.load(Graph1_file)
     setpointDict = {
-        '0': [-380, -632, 510, -pi/2],
-        '1': [636.76,371.22,901.66,0],
-        '2': [636.76,122.22,891.66,0],
-        '3': [636.76,-103.78,946.66],
-        '4': [636.76,-303.78,958.66,0],
-        '5': [636.76,371.22,568.33,0],
-        '6': [636.76,122.22,563.33,0],
-        '7': [636.76,-103.78,701.66,0],
-        '8': [636.76,-303.78,706.66,0],
-        '9': [636.76,371.22,240,0],
-        '10': [636.76,122.22,235,0],
-        '11': [676.76,-103.78,451.66,0],
-        '12': [636.76,-303.78,461.66,0],
-        '13': [636.76,-103.78,206.66,0],
-        '14': [636.76,-303.78,211.66,0],
-        '15': [-380,632,510,pi/2]
+        '0': [-380, -632, 510, -pi / 2],
+        '1': [636.76, 371.22, 901.66, 0],
+        '2': [636.76, 122.22, 891.66, 0],
+        '3': [636.76, -103.78, 946.66],
+        '4': [636.76, -303.78, 958.66, 0],
+        '5': [636.76, 371.22, 568.33, 0],
+        '6': [636.76, 122.22, 563.33, 0],
+        '7': [636.76, -103.78, 701.66, 0],
+        '8': [636.76, -303.78, 706.66, 0],
+        '9': [636.76, 371.22, 240, 0],
+        '10': [636.76, 122.22, 235, 0],
+        '11': [676.76, -103.78, 451.66, 0],
+        '12': [636.76, -303.78, 461.66, 0],
+        '13': [636.76, -103.78, 206.66, 0],
+        '14': [636.76, -303.78, 211.66, 0],
+        '15': [-380, 632, 510, pi / 2]
     }
-    task_init = setpointDict[str(initial)]
-    task_final = setpointDict[str(final)]
-    q1_i,q2_i,q3_i,q4_i,q5_i = inverseKinematics(task_init[0],task_init[1],task_init[2],task_init[3])
-    q1_f, q2_f, q3_f, q4_f, q5_f = inverseKinematics(task_final[0],task_final[1],task_final[2],task_final[3])
-    path = Graph1.astar([q1_i,q2_i,q3_i,q4_i,q5_i],[q1_f, q2_f, q3_f, q4_f, q5_f])
-    if type == "small":
-        q1,q2,q3,q4,q5 = inverseKinematics(task_final[0],task_final[1],task_final[2]-75,task_final[3])
-    elif type == "big" :
-        q1, q2, q3, q4, q5 = inverseKinematics(task_final[0], task_final[1], task_final[2] - 50, task_final[3])
-    path.append([q1,q2,q3,q4,q5])
-    return path
+    if initial == 'home':
+        q1_i, q2_i, q3_i, q4_i, q5_i = 0, 0, 0, 0, 0
+    else:
+        task_init = setpointDict[str(initial)]
+        q1_i, q2_i, q3_i, q4_i, q5_i = inverseKinematics(
+            task_init[0], task_init[1], task_init[2], task_init[3])
+    if final == 'home':
+        q1_f, q2_f, q3_f, q4_f, q5_f = 0, 0, 0, 0, 0
+    else:
+        task_final = setpointDict[str(final)]
+        q1_f, q2_f, q3_f, q4_f, q5_f = inverseKinematics(
+            task_final[0], task_final[1], task_final[2], task_final[3])
+    path = Graph1.astar([q1_i, q2_i, q3_i, q4_i, q5_i],
+                        [q1_f, q2_f, q3_f, q4_f, q5_f])
+    # if type == "small":
+    #     q1, q2, q3, q4, q5 = inverseKinematics(
+    #         task_final[0], task_final[1], task_final[2] - 75, task_final[3])
+    # elif type == "big":
+    #     q1, q2, q3, q4, q5 = inverseKinematics(
+    #         task_final[0], task_final[1], task_final[2] - 50, task_final[3])
+    # path.append([q1, q2, q3, q4, q5])
+    print(path)
+    for i in path:
+        sendTarget(i[0], i[1], i[2], i[3], i[4], ser)
+
+
 def setGains(K_P1, K_I1, K_D1, K_P2, K_I2, K_D2, ser):
     buffer = [255, 255, 7, 0, 0, 0]
     buffer.extend(split_floats(K_P1))
