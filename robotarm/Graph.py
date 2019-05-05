@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection,Line3DCollection
 from mpl_toolkits.mplot3d import Axes3D
-from math import sqrt,pi
+from math import sqrt, pi
 
 
 def heuristic(config,goal_state):
@@ -30,11 +30,16 @@ class Graph:
         if x>30:
             if y >510 or y< -510:
                 intersect = 1
+
         if intersect == 0:
             for i in self.obstaclelist:
                 if i.twopoint[0][0] < x and i.twopoint[1][0] > x and i.twopoint[0][1] < y and i.twopoint[1][1] > y and i.twopoint[0][2] < z and i.twopoint[1][2] > z:
                     intersect = 1
+                    # print('is in obstacle')
                     break
+        if (q1,q2,q3,q4,q5) == (0,0,0,0,0):
+            intersect = 0
+        # print(intersect)
         if intersect == 0:
             self.nodelist.append(Node)
 
@@ -101,7 +106,7 @@ class Graph:
                 verts = [list(zip(x,y,z))]
                 pc = Poly3DCollection(verts,facecolors='g')
                 line = Line3DCollection(verts, colors='k', linewidths=0.5)
-                ax.add_collection3d(pc)
+                # ax.add_collection3d(pc)
                 ax.add_collection(line)
         for i in self.connection_idx:
             config_a = self.nodelist[i[0]].config
@@ -115,14 +120,17 @@ class Graph:
             x = [x_1,x_2]
             y = [y_1,y_2]
             z = [z_1,z_2]
-            ax.plot(x,y,z,color='red')
+            ax.plot(x,y,z,color='yellow')
         plt.show(ax)
 
     def connect_graph(self):
         # i = 0
         for a in range(len(self.nodelist)):
             for b in range(len(self.nodelist)):
-                if self.nodelist[a] == self.nodelist[b] or (b,a) in self.connection_idx or (a,b) in self.connection_idx:
+                if self.nodelist[a] == self.nodelist[b]:
+                    continue
+                if (b,a) in self.connection_idx or (a,b) in self.connection_idx:
+                    # print('in index')
                     continue
                 no_colission = True
                 q1 = np.array(self.nodelist[a].config)
@@ -131,7 +139,7 @@ class Graph:
                 dis_s = np.square(diff)
                 sum = np.sum(dis_s)
                 dis = np.sqrt(sum)
-                if dis > 1.5:
+                if dis > 1.8:
                     # print('check1')
                     continue
                 percentile = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
@@ -150,9 +158,12 @@ class Graph:
                             break
                     if no_colission == False:
                         break
+                if self.nodelist[a].config == [0,0,0,0,0] or self.nodelist[b].config == [0,0,0,0,0]:
+                    no_colission = True
                 # print(no_colission)
                 if no_colission:
                     # print('check1')
+                    # print('connect')
                     self.connection_idx.append((a,b))
                     self.nodelist[a].connectedNode.append(b)
                     self.nodelist[b].connectedNode.append(a)
@@ -163,23 +174,23 @@ class Graph:
     def visualizexyz_path(self,q_init,q_goal):
         path = self.astar(q_init,q_goal)
         print(path)
-        # xlist = []
-        # ylist = []
-        # zlist = []
-        # for i in self.nodelist:
-        #     (q1, q2, q3, q4, q5) = i.config[0], i.config[1], i.config[2], i.config[3], i.config[4]
-        #     x = Px(q1, q2, q3, q4, q5)
-        #     y = Py(q1, q2, q3, q4, q5)
-        #     z = Pz(q1, q2, q3, q4, q5)
-        #     xlist.append(x)
-        #     ylist.append(y)
-        #     zlist.append(z)
-        # x_np = np.array(xlist)
-        # y_np = np.array(ylist)
-        # z_np = np.array(zlist)
+        xlist = []
+        ylist = []
+        zlist = []
+        for i in self.nodelist:
+            (q1, q2, q3, q4, q5) = i.config[0], i.config[1], i.config[2], i.config[3], i.config[4]
+            x = Px(q1, q2, q3, q4, q5)
+            y = Py(q1, q2, q3, q4, q5)
+            z = Pz(q1, q2, q3, q4, q5)
+            xlist.append(x)
+            ylist.append(y)
+            zlist.append(z)
+        x_np = np.array(xlist)
+        y_np = np.array(ylist)
+        z_np = np.array(zlist)
         fig = plt.figure()
         ax = fig.gca(projection='3d')
-        # ax.scatter(x_np, y_np, z_np)
+        ax.scatter(x_np, y_np, z_np)
 
         for i in self.obstaclelist:
             xmin, ymin, zmin = i.twopoint[0]
@@ -233,7 +244,10 @@ class Graph:
         self.put_node(Node_goal)
         self.connect_graph()
         current_Node = self.nodelist[len(self.nodelist)-2]
+        print('current node', current_Node.config)
+        print('goal node',Node_goal.config)
         Node_goal = self.nodelist[len(self.nodelist)-1]
+        # print('goal node', Node_goal.config)
         path = [current_Node]
         cost = 0
         scorelist = []
@@ -241,11 +255,13 @@ class Graph:
         costlist = []
         path_explored = []
         x = 0
+        # print('goal node', Node_goal.config)
         while current_Node != Node_goal:
             for i in range(len(current_Node.connectedNode)):
                 path_i = path.copy()
                 Node_i = self.nodelist[current_Node.connectedNode[i]]
                 cost_i = cost + heuristic(current_Node.config,Node_i.config)
+                # print('goal node', Node_goal.config)
                 h = heuristic(Node_i.config,Node_goal.config)
                 path_i.append(Node_i)
                 scorelist.append(h+cost_i)
@@ -258,7 +274,9 @@ class Graph:
                 costlist.remove(costlist[idx])
                 path_explored.remove(path_explored[idx])
             idx = scorelist.index(min(scorelist))
-            # print(scorelist[idx])
+            # print(len(scorelist))
+            # print('current_Node',current_Node.config)
+            # print('goal node',Node_goal.config)
             x = 1
             cost = costlist[idx]
             current_Node = nodelist[idx]
@@ -269,7 +287,9 @@ class Graph:
             #         path_explored.remove(i)
         # print('finished loop')
         path_config = []
+        # print(path)
         for i in path:
+            # path_config.append(i.config)
             path_config.append((np.array(i.config)*180/pi).tolist())
         return path_config
 

@@ -1,6 +1,6 @@
 from math import atan2, cos,sin,sqrt,pi
 from ForwardKinematics import Px, Py, Pz
-def inverseKinematics(x,y,z,facing_angle):
+def inverseKinematics(x,y,z,facing_angle,unit = None):
     l1 = 371.7
     l2 = 96.12
     l3 = 400
@@ -31,11 +31,12 @@ def inverseKinematics(x,y,z,facing_angle):
                     l3 ** 2 + 2 * cos(off - q3) * l3 * l4 + l4 ** 2)
         q2 = atan2(sin_q2, cos_q2)
     q4 = - q2 - q3
-    q1 = q1*180/pi
-    q2 = q2 * 180 / pi
-    q3 = q3 * 180 / pi
-    q4 = q4 * 180 / pi
-    q5 = q5 * 180 / pi
+    if unit == 'degrees':
+        q1 = q1*180/pi
+        q2 = q2 * 180 / pi
+        q3 = q3 * 180 / pi
+        q4 = q4 * 180 / pi
+        q5 = q5 * 180 / pi
     return(q1,q2,q3,q4,q5)
 
 

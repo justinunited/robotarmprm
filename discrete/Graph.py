@@ -30,12 +30,15 @@ class Graph:
         if x>30:
             if y >510 or y< -510:
                 intersect = 1
+
         if intersect == 0:
             for i in self.obstaclelist:
                 if i.twopoint[0][0] < x and i.twopoint[1][0] > x and i.twopoint[0][1] < y and i.twopoint[1][1] > y and i.twopoint[0][2] < z and i.twopoint[1][2] > z:
                     intersect = 1
                     # print('is in obstacle')
                     break
+        if (q1,q2,q3,q4,q5) == (0,0,0,0,0):
+            intersect = 0
         # print(intersect)
         if intersect == 0:
             self.nodelist.append(Node)
@@ -103,7 +106,7 @@ class Graph:
                 verts = [list(zip(x,y,z))]
                 pc = Poly3DCollection(verts,facecolors='g')
                 line = Line3DCollection(verts, colors='k', linewidths=0.5)
-                ax.add_collection3d(pc)
+                # ax.add_collection3d(pc)
                 ax.add_collection(line)
         for i in self.connection_idx:
             config_a = self.nodelist[i[0]].config
@@ -117,7 +120,7 @@ class Graph:
             x = [x_1,x_2]
             y = [y_1,y_2]
             z = [z_1,z_2]
-            ax.plot(x,y,z,color='red')
+            ax.plot(x,y,z,color='yellow')
         plt.show(ax)
 
     def connect_graph(self):
@@ -155,6 +158,8 @@ class Graph:
                             break
                     if no_colission == False:
                         break
+                if self.nodelist[a].config == [0,0,0,0,0] or self.nodelist[b].config == [0,0,0,0,0]:
+                    no_colission = True
                 # print(no_colission)
                 if no_colission:
                     # print('check1')

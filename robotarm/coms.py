@@ -81,6 +81,8 @@ while(1):
                 initial = input('input starting point: ')
                 final = input('input goal point: ')
                 pathTraversal(initial, final, 0, 0, serialDevice)
+            elif keyinput == 'save':
+                pathCollectionDump()
 
 serialDevice.close()
 print("end")
