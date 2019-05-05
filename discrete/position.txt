@@ -1,3 +1,9 @@
+pos 0
+x:-365
+y:-647
+z:495
+facing_angle: -pi/2
+
 pos 1
 x: 636.76
 y: 371.22
