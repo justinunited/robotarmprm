@@ -48,8 +48,8 @@ def sendCommand(command, ser):
                 ser.write(bytes(command))
             elif response == 'done':
                 return 1
-            # elif response == 'starting':
-            #     break
+            elif response == 'starting':
+                break
             else:
                 pass
             #     return 0
@@ -146,9 +146,12 @@ def sendTarget(q1, q2, q3, q4, q5, ser):
     sendCommand(buffer, ser)
     return 1
 
+
 def sendPreset(index, ser):
-    arr = [[115.03183091872435, -67.77724322956213, 17.16236370823007, 50.61487952133207, 33.70443738689822], [88.93694791509603, -23.802426449115767, 7.15227539696151, 16.650151052154254, 55.89542196233564], [41.77250722897626, -15.721380473387095, 38.183703192384655, -22.462322718997566, -44.71842850676669], [38.404866441001076, -40.9614505836742, 42.717535179301954, -1.7560845956277524, -38.404866441001076]]
-    sendTarget(arr[index][0], arr[index][1], arr[index][2], arr[index][3], arr[index][4], ser)
+    arr = [[115.03183091872435, -67.77724322956213, 17.16236370823007, 50.61487952133207, 33.70443738689822], [88.93694791509603, -23.802426449115767, 7.15227539696151, 16.650151052154254, 55.89542196233564],
+           [41.77250722897626, -15.721380473387095, 38.183703192384655, -22.462322718997566, -44.71842850676669], [38.404866441001076, -40.9614505836742, 42.717535179301954, -1.7560845956277524, -38.404866441001076]]
+    sendTarget(arr[index][0], arr[index][1], arr[index]
+               [2], arr[index][3], arr[index][4], ser)
 
 
 def goNow(ser):
@@ -162,6 +165,7 @@ def goNow(ser):
     print(buffer)
     sendCommand(buffer, ser)
 
+
 def gripRelease(ser):
     buffer = [255, 255, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     checksum = 0
@@ -172,6 +176,7 @@ def gripRelease(ser):
     print('sending ')
     print(buffer)
     sendCommand(buffer, ser)
+
 
 def gripSucc(ser):
     buffer = [255, 255, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -184,6 +189,7 @@ def gripSucc(ser):
     print(buffer)
     sendCommand(buffer, ser)
 
+
 def softReset(ser):
     buffer = [255, 255, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     checksum = 0
@@ -194,6 +200,7 @@ def softReset(ser):
     print('sending ')
     print(buffer)
     sendCommand(buffer, ser)
+
 
 def sendInverse(x, y, z, facing_angle, ser):
     q1, q2, q3, q4, q5 = inverseKinematics(x, y, z, facing_angle)
