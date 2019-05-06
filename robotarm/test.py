@@ -57,7 +57,7 @@ Graph1.put_obstacle(obstacle11)
 Graph1.put_obstacle(obstacle12)
 Graph1.put_obstacle(obstacle13)
 while len(Graph1.nodelist)<300:
-    q1 = uniform(-2/3*pi,2/3*pi)
+    q1 = uniform(-                  2/3*pi,2/3*pi)
     q2 = uniform(-185/180*pi,20/180*pi)
     q3 = uniform(-19/180*pi,3/2*pi)
     q4 = -q2-q3

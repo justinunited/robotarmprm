@@ -238,15 +238,26 @@ class Graph:
         plt.show(ax)
 
     def astar(self,q_init,q_goal):
-        Node_init = Node(q_init)
+        inlist1 = 0
+        inlist2 = 0
+        for i in self.nodelist:
+            print(i)
+            if i.config == q_init:
+                # Node_init = i
+                current_Node = i
+                inlist1 = 1
+                print('con1')
+                break
+        if inlist1 ==0:
+            Node_init = Node(q_init)
+            self.put_node(Node_init)
+        print(inlist1)
         Node_goal = Node(q_goal)
-        self.put_node(Node_init)
         self.put_node(Node_goal)
         self.connect_graph()
-        current_Node = self.nodelist[len(self.nodelist)-2]
-        print('current node', current_Node.config)
-        print('goal node',Node_goal.config)
-        Node_goal = self.nodelist[len(self.nodelist)-1]
+        Node_goal = self.nodelist[len(self.nodelist) - 1]
+        if inlist1 == 0:
+            current_Node = self.nodelist[len(self.nodelist) - 2]
         # print('goal node', Node_goal.config)
         path = [current_Node]
         cost = 0
@@ -255,6 +266,8 @@ class Graph:
         costlist = []
         path_explored = []
         x = 0
+        print('current node', current_Node.config)
+        print('goal node', Node_goal.config)
         # print('goal node', Node_goal.config)
         while current_Node != Node_goal:
             for i in range(len(current_Node.connectedNode)):
@@ -275,7 +288,7 @@ class Graph:
                 path_explored.remove(path_explored[idx])
             idx = scorelist.index(min(scorelist))
             # print(len(scorelist))
-            # print('current_Node',current_Node.config)
+            print('current_Node',current_Node.config)
             # print('goal node',Node_goal.config)
             x = 1
             cost = costlist[idx]
